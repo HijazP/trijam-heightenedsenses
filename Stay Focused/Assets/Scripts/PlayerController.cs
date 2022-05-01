@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float jumpForce;
     private float moveInput;
-  
+    private bool hungry = true;
+
+    public GameObject status;
 
     private Rigidbody2D rb;
 
@@ -16,10 +18,28 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);  
+        
+        if (Input.GetKey(KeyCode.Q))
+        {
+            status.SetActive(false);
+            hungry = false;
+        }
+
+        if (hungry)
+        {
+            rb.AddForce(new Vector2 (moveInput * speed, rb.velocity.y));
+        }
+        else
+        {
+            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+            if (Input.GetKey(KeyCode.E))
+            {
+                status.SetActive(true);
+                hungry = true;
+            }
+        }
     }
 }
