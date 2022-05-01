@@ -41,5 +41,10 @@ public class PlayerController : MonoBehaviour
                 hungry = true;
             }
         }
+
+        if(Input.GetButtonDown("Jump")){            
+            rb.AddForce(new Vector2(rb.velocity.x, jumpForce));
+            
+        }
     }
 }
