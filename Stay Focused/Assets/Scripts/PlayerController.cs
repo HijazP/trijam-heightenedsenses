@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     private float moveInput;
     private bool hungry = true;
-
+    private Collider2D collision;
     public GameObject status;
 
     private Rigidbody2D rb;
@@ -45,6 +45,11 @@ public class PlayerController : MonoBehaviour
         if(Input.GetButtonDown("Jump")){            
             rb.AddForce(new Vector2(rb.velocity.x, jumpForce));
             
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision){
+        if(collision.gameObject.CompareTag("collectable")){
+            Destroy(collision.gameObject);
         }
     }
 }
