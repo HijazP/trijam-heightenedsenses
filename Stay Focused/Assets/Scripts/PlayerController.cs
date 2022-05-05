@@ -6,8 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     public float speed;
     public float jumpForce;
+    public float time = 3;
     private float moveInput;
     private bool hungry = true;
+    private bool collect = false;
     private Collider2D collision;
     public GameObject status;
 
@@ -22,7 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = Input.GetAxis("Horizontal");
         
-        if (Input.GetKey(KeyCode.Q))
+        if (collect)
         {
             status.SetActive(false);
             hungry = false;
@@ -35,7 +37,12 @@ public class PlayerController : MonoBehaviour
         else
         {
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-            if (Input.GetKey(KeyCode.E))
+
+            if (time > 0)
+            {
+                time -= Time.fixedDeltaTime;
+            }
+            else
             {
                 status.SetActive(true);
                 hungry = true;
@@ -47,8 +54,12 @@ public class PlayerController : MonoBehaviour
             
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision){
-        if(collision.gameObject.CompareTag("collectable")){
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("collectable"))
+        {
+            collect = true;
             Destroy(collision.gameObject);
         }
     }

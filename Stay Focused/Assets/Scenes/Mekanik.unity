@@ -738,6 +738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   jumpForce: 300
+  time: 3
   status: {fileID: 2126513827}
 --- !u!61 &164790973
 BoxCollider2D:
@@ -5773,7 +5774,7 @@ GameObject:
   - component: {fileID: 1650481652}
   m_Layer: 0
   m_Name: Kopi (3)
-  m_TagString: Untagged
+  m_TagString: collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
