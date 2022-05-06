@@ -5,14 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed;
-    public float jumpForce;
-    public float time = 3;
     private float moveInput;
-    private bool hungry = true;
-    private bool collect = false;
-    private Collider2D collision;
-    public GameObject status;
-
+    public float jumpForce;
+    private bool isGrounded;
+    public Transform groundCheck;
+    public float checkRadius;
+    public LayerMask whatIsGround;
     private Rigidbody2D rb;
 
     void Start()
@@ -22,45 +20,28 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         moveInput = Input.GetAxis("Horizontal");
-        
-        if (collect)
-        {
-            status.SetActive(false);
-            hungry = false;
-        }
+        StatusCharacter stats = GetComponent<StatusCharacter>();
 
-        if (hungry)
+        if (stats.hungry)
         {
             rb.AddForce(new Vector2 (moveInput * speed, rb.velocity.y));
         }
         else
         {
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-
-            if (time > 0)
-            {
-                time -= Time.fixedDeltaTime;
-            }
-            else
-            {
-                status.SetActive(true);
-                hungry = true;
-            }
-        }
-
-        if(Input.GetButtonDown("Jump")){            
-            rb.AddForce(new Vector2(rb.velocity.x, jumpForce));
-            
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void Update()
     {
-        if(collision.gameObject.CompareTag("collectable"))
+        if (isGrounded)
         {
-            collect = true;
-            Destroy(collision.gameObject);
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            {
+                rb.velocity = Vector2.up * jumpForce;
+            }
         }
     }
 }
