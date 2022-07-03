@@ -8,29 +8,27 @@ public class StatusCharacter : MonoBehaviour
     private bool collect = false;
     public GameObject status;
 
-    void FixedUpdate()
+    public static StatusCharacter instance;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
+    void Update()
     {
         if (collect)
         {
-            hungry = false;
-            StartCoroutine(HungerState());
+            HungryBar.instance.AddStamina(2);
+            collect = false;
         }
-    }
-
-    IEnumerator HungerState()
-    {
-        yield return new WaitForSeconds(3f);
-        collect = false;
-        hungry = true;
-        status.SetActive(true);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("collectable"))
+        if (collision.gameObject.CompareTag("collectable") && hungry)
         {
             collect = true;
-            status.SetActive(false);
             Destroy(collision.gameObject);
         }
     }

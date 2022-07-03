@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+            HungryBar.instance.UseStamina();
         }
     }
 

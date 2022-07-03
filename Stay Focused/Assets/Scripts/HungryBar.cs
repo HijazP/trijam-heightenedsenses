@@ -5,24 +5,50 @@ using UnityEngine.UI;
 
 public class HungryBar : MonoBehaviour
 {
-   public Slider slider;
-    
-    public void SetMaxHealth(int health)
+    public Slider slider;
+    private float maxStamina = 10;
+    private float currentStamina;
+    public GameObject redFill;
+    public GameObject hungerText;
+
+    public static HungryBar instance;
+
+    private void Awake()
     {
-        slider.maxValue = health;
-        slider.value = health;
+        instance = this;
     }
 
-    public void SetHealth(int health)
+    private void Start()
     {
-        slider.value = health;
+        currentStamina = 0;
+        slider.maxValue = maxStamina;
+        slider.value = currentStamina;
     }
-    public void eat()
+
+    public void AddStamina(float current)
     {
-        slider.value += 10;
-        if (slider.value >= 100){
-            slider.value = 100;
+        redFill.SetActive(false);
+        slider.value += current;
+        if (slider.value == maxStamina)
+        {
+            currentStamina = maxStamina;
+            StatusCharacter.instance.hungry = false;
         }
-        
+    }
+
+    public void UseStamina()
+    {
+        if (StatusCharacter.instance.hungry == false && currentStamina > 0)
+        {
+            hungerText.SetActive(false);
+            currentStamina -= Time.deltaTime;
+            slider.value = currentStamina;
+        }
+        else if (currentStamina <= 0)
+        {
+            redFill.SetActive(true);
+            hungerText.SetActive(true);
+            StatusCharacter.instance.hungry = true;
+        }
     }
 }
