@@ -6,6 +6,9 @@ TagManager:
   tags:
   - does damage
   - collectable
+  - restart
+  - character
+  - next
   layers:
   - Default
   - TransparentFX
