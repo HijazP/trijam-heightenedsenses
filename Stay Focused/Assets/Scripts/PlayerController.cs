@@ -12,10 +12,12 @@ public class PlayerController : MonoBehaviour
     public float checkRadius;
     public LayerMask whatIsGround;
     private Rigidbody2D rb;
+    private Animator anim;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -26,10 +28,12 @@ public class PlayerController : MonoBehaviour
 
         if (stats.hungry)
         {
+            anim.SetBool("fill", false);
             rb.AddForce(new Vector2 (moveInput * speed, rb.velocity.y));
         }
         else
         {
+            anim.SetBool("fill", true);
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
             HungryBar.instance.UseStamina();
         }
