@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private float moveInput;
     public float jumpForce;
     private bool isGrounded;
+    private bool facingRight;
     public Transform groundCheck;
     public float checkRadius;
     public LayerMask whatIsGround;
@@ -37,6 +38,15 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
             HungryBar.instance.UseStamina();
         }
+
+        if (facingRight == true && moveInput > 0)
+        {
+            Flip();
+        }
+        else if (facingRight == false && moveInput < 0)
+        {
+            Flip();
+        }
     }
 
     void Update()
@@ -48,5 +58,13 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = Vector2.up * jumpForce;
             }
         }
+    }
+
+    void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 Scaler = transform.localScale;
+        Scaler.x *= -1;
+        transform.localScale = Scaler;
     }
 }
