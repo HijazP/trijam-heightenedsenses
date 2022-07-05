@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     public void NextScene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
