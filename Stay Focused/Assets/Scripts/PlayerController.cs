@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            if (Input.GetAxis("Vertical") > 0)
             {
                 rb.velocity = Vector2.up * jumpForce;
             }
